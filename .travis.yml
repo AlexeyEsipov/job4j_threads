@@ -18,4 +18,6 @@ notifications:
       - a_esipov@list.ru
     on_success: never # default: change
     on_failure: always # default: always
-
+env:
+  global:
+    - CODECOV_TOKEN='97b106d0-cd12-411a-8076-4f8a016f54d9'
