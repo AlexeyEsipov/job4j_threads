@@ -17,15 +17,14 @@ public class ThreadState {
         first.start();
         second.start();
 
-        //приостанавливаем нить main до тех пор, пока нити первая и вторая не завершатся
-        try {
-            first.join();
-            second.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //ждем, пока нити первая и вторая не завершатся
 
-        //нить main возобновляет работу и выполняет последний оператор
+        while (first.getState() != Thread.State.TERMINATED) {
+            System.out.println(first.getState());
+        }
+        while (second.getState() != Thread.State.TERMINATED) {
+            System.out.println(second.getState());
+        }
         System.out.println("Работа завершена");
     }
 }
