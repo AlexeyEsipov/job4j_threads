@@ -6,11 +6,14 @@ public class ConsoleProgress {
                 () -> {
                     try {
                         String[] process = new String[] {"/", "--", "\\", "|"};
+                        int i = 0;
                         while (!Thread.currentThread().isInterrupted()) {
-                            for (int j = 0; j < 4; j++) {
-                                System.out.print("\rLoading ... " + process[j]);
-                                Thread.sleep(250);
+                            System.out.print("\rLoading ... " + process[i]);
+                            i++;
+                            if (i == 4) {
+                                i = 0;
                             }
+                            Thread.sleep(250);
                         }
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
