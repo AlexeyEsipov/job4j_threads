@@ -6,34 +6,32 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Wget implements Runnable {
-    private final String url;
+    private final String urlSource;
+    private final String fileDest;
     private final int speed;
 
-    public Wget(String url, int speed) {
-        this.url = url;
+    public Wget(String urlSource, String fileDest, int speed) {
+        this.urlSource = urlSource;
+        this.fileDest = fileDest;
         this.speed = speed;
     }
 
     @Override
     public void run() {
-        try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp.xml")) {
+        try (BufferedInputStream in = new BufferedInputStream(new URL(urlSource).openStream());
+             FileOutputStream fileOutputStream = new FileOutputStream(fileDest)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
-            // включили секундомер - t0
-            long t0 = System.nanoTime();
+            long timeStart = System.nanoTime();
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
-                // выключили секундомер и засекли время - t2
-                long t2 = System.nanoTime() - t0;
-                // расчет задержки - с
-                long c = speed * 1000L - t2 / 1000000;
-                if (c < 0) {
-                    c = 0;
+                long timePhase = System.nanoTime() - timeStart;
+                long delay = speed * 1000L - timePhase / 1000000;
+                if (delay < 0) {
+                    delay = 0;
                 }
-                Thread.sleep(c);
-                // включили секундомер
-                t0 = System.nanoTime();
+                Thread.sleep(delay);
+                timeStart = System.nanoTime();
             }
         } catch (IOException | InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -42,9 +40,11 @@ public class Wget implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        ValidateArgs.parseArgs(args);
         String url = args[0];
         int speed = Integer.parseInt(args[1]);
-        Thread wget = new Thread(new Wget(url, speed));
+        String fileDest = args[2];
+        Thread wget = new Thread(new Wget(url, fileDest, speed));
         wget.start();
         wget.join();
     }
