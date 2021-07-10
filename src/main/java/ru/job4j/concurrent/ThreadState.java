@@ -20,7 +20,7 @@ public class ThreadState {
         //ждем, пока нити первая и вторая не завершатся
 
         while (first.getState() != Thread.State.TERMINATED
-                && second.getState() != Thread.State.TERMINATED) {
+                || second.getState() != Thread.State.TERMINATED) {
             System.out.println(first.getState());
             System.out.println(second.getState());
         }
