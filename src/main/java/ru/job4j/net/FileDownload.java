@@ -8,7 +8,7 @@ public class FileDownload {
         String file =
         "https://raw.githubusercontent.com/peterarsentev/course_test/master/pom.xml";
         try (BufferedInputStream in = new BufferedInputStream(new URL(file).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream("HR310aftcabin2735.jpg")) {
+             FileOutputStream fileOutputStream = new FileOutputStream("txt.txt")) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
             // включили секундомер - t0
