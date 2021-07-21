@@ -15,7 +15,7 @@ public class UserStorageTest {
 
         @Override
         public void run() {
-            this.us.add(new User(200));
+            this.us.add(new User(1, 200));
         }
     }
 
@@ -33,7 +33,7 @@ public class UserStorageTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            this.us.add(new User(400));
+            this.us.add(new User(2, 400));
         }
     }
 
@@ -48,6 +48,5 @@ public class UserStorageTest {
         second.join();
         userStorage.transfer(1, 2, 200);
         assertEquals(600, userStorage.get(2).getAmount());
-
     }
 }

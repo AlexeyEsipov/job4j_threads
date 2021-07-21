@@ -11,16 +11,6 @@ public class User {
         this.amount = amount;
     }
 
-    public User(int amount) {
-        this.id = 0;
-        this.amount = amount;
-    }
-
-    public User() {
-        this.id = 0;
-        this.amount = 0;
-    }
-
     public int getId() {
         return id;
     }
