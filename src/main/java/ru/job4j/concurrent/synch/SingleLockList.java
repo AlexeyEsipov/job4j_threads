@@ -10,7 +10,7 @@ public class SingleLockList<T> implements Iterable<T> {
     private final List<T> list;
 
     public SingleLockList(List<T> list) {
-        this.list = new ArrayList<>(list);
+        this.list = copy(list);
     }
 
     public SingleLockList() {
@@ -31,6 +31,6 @@ public class SingleLockList<T> implements Iterable<T> {
     }
 
     private List<T> copy(List<T> list) {
-        return new ArrayList<>(new LinkedList<>(list));
+        return new ArrayList<>(list);
     }
 }
