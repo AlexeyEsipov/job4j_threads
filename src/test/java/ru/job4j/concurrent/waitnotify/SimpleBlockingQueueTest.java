@@ -24,7 +24,11 @@ public class SimpleBlockingQueueTest {
         @Override
         public void run() {
             for (int i: list) {
-                this.ps.offer(i);
+                try {
+                    this.ps.offer(i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -47,13 +51,17 @@ public class SimpleBlockingQueueTest {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                result.add(ps.poll());
+                try {
+                    result.add(ps.poll());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     @Test
-    public void whenExecute2ThreadThen2() throws InterruptedException {
+    public void whenExecute2ThreadThen2() {
         SimpleBlockingQueue<Integer> sbq = new SimpleBlockingQueue<>(4);
         List<Integer> list1 = List.of(0, 1, 2, 3, 4);
         List<Integer> list2 = List.of(10, 11, 12, 13, 14);
