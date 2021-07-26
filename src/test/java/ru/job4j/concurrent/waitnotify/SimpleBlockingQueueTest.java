@@ -2,9 +2,11 @@ package ru.job4j.concurrent.waitnotify;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
+import static org.hamcrest.Matchers.is;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SimpleBlockingQueueTest {
     private final List<Integer> result = new ArrayList<>();
@@ -54,7 +56,7 @@ public class SimpleBlockingQueueTest {
                 try {
                     result.add(ps.poll());
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -88,5 +90,30 @@ public class SimpleBlockingQueueTest {
         assertTrue(result.removeAll(list1));
         assertTrue(result.removeAll(list2));
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void whenFetchAllThenGetIt() throws InterruptedException {
+        final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
+        final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
+        List<Integer> list1 = List.of(0, 1, 2, 3, 4);
+        ThreadProducer producer = new ThreadProducer(queue, list1);
+        producer.start();
+        Thread consumer = new Thread(
+                () -> {
+                    while (!queue.isEmpty() || !Thread.currentThread().isInterrupted()) {
+                        try {
+                            buffer.add(queue.poll());
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                }
+        );
+        consumer.start();
+        producer.join();
+        consumer.interrupt();
+        consumer.join();
+        assertThat(buffer, is(Arrays.asList(0, 1, 2, 3, 4)));
     }
 }
