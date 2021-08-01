@@ -1,32 +1,25 @@
 package ru.job4j.concurrent.cache;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Cache {
     private final Map<Integer, Base> memory = new ConcurrentHashMap<>();
 
     public boolean add(Base model) {
-        Base newModel = new Base(model.getId(), model.getVersion());
-        newModel.setName(model.getName());
-        return  memory.putIfAbsent(model.getId(), newModel) == null;
+        return  memory.putIfAbsent(model.getId(),
+                new Base(model.getId(), model.getVersion(), model.getName())) == null;
     }
 
     public boolean update(Base model) throws OptimisticException {
-        int id = model.getId();
-        int version = model.getVersion();
-        String nameNew = model.getName();
-        Base oldModel = memory.get(id);
-        if (memory.get(id).getVersion() != version) {
-            throw new OptimisticException("Versions are not equal");
-        }
-        memory.computeIfPresent(id, (k, v) -> {
-                Base result = new Base(id, version + 1);
-                result.setName(nameNew);
-                return result;
+        return Objects.equals(memory.computeIfPresent(model.getId(), (k, v) -> {
+            if (memory.get(model.getId()).getVersion() != model.getVersion()) {
+                throw new OptimisticException("Versions are not equal");
             }
-        );
-        return !memory.containsValue(oldModel);
+            return new Base(model.getId(), model.getVersion() + 1, model.getName());
+            }
+        ), new Base(model.getId(), model.getVersion() + 1, model.getName()));
     }
 
     public void delete(Base model) {

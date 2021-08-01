@@ -7,22 +7,20 @@ import static org.junit.Assert.*;
 public class CacheTest {
 
     @Test
-    public void update() {
+    public void whenVersionEqualsThenUpdateOk() {
         Cache cache = new Cache();
-        Base base = new Base(0, 0);
-        base.setName("name");
+        Base base = new Base(0, 0, "name");
         cache.add(base);
         base.setName("nameUpdate");
-        cache.update(base);
+        assertTrue(cache.update(base));
         assertEquals(1, cache.get(0).getVersion());
     }
 
     @Test(expected = OptimisticException.class)
-    public void expect() {
+    public void whenVersionNotEqualsThenException() {
         Cache cache = new Cache();
         Base base = new Base(0, 0);
         cache.add(base);
-        Base baseNew = new Base(0, 1);
-        cache.update(baseNew);
+        cache.update(new Base(0, 1));
     }
 }
