@@ -9,7 +9,8 @@ public class CacheTest {
     @Test
     public void whenVersionEqualsThenUpdateOk() {
         Cache cache = new Cache();
-        Base base = new Base(0, 0, "name");
+        Base base = new Base(0, 0);
+        base.setName("name");
         cache.add(base);
         base.setName("nameUpdate");
         assertTrue(cache.update(base));

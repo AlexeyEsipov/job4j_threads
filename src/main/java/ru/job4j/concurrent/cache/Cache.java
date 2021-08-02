@@ -8,18 +8,23 @@ public class Cache {
     private final Map<Integer, Base> memory = new ConcurrentHashMap<>();
 
     public boolean add(Base model) {
-        return  memory.putIfAbsent(model.getId(),
-                new Base(model.getId(), model.getVersion(), model.getName())) == null;
+        Base newBase = new Base(model.getId(), model.getVersion());
+        newBase.setName(model.getName());
+        return  memory.putIfAbsent(model.getId(), newBase) == null;
     }
 
     public boolean update(Base model) throws OptimisticException {
+        Base newModel = new Base(model.getId(), model.getVersion() + 1);
+        newModel.setName(model.getName());
         return Objects.equals(memory.computeIfPresent(model.getId(), (k, v) -> {
-            if (memory.get(model.getId()).getVersion() != model.getVersion()) {
+            if (v.getVersion() != model.getVersion()) {
                 throw new OptimisticException("Versions are not equal");
             }
-            return new Base(model.getId(), model.getVersion() + 1, model.getName());
-            }
-        ), new Base(model.getId(), model.getVersion() + 1, model.getName()));
+            Base result = new Base(k, v.getVersion() + 1);
+            result.setName(model.getName());
+            return result;
+        }
+        ), newModel);
     }
 
     public void delete(Base model) {
