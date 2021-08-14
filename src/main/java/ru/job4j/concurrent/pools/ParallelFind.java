@@ -19,7 +19,7 @@ public class  ParallelFind<T> extends RecursiveTask<Integer> {
     @Override
     protected Integer compute() {
         if (to - from <= 10) {
-            return linearFind();
+            return linearFind(from, to);
         }
         int mid = (from + to) / 2;
         ParallelFind<T> leftFind = new ParallelFind<>(array, from, mid, ask);
@@ -35,8 +35,8 @@ public class  ParallelFind<T> extends RecursiveTask<Integer> {
         return new ForkJoinPool().invoke(new ParallelFind<>(array, 0, array.length - 1, ask));
     }
 
-    private int linearFind() {
-        for (int i = 0; i < array.length; i++) {
+    private int linearFind(int from, int to) {
+        for (int i = from; i <= to; i++) {
             if (array[i].equals(ask)) {
                 return i;
             }
