@@ -46,13 +46,12 @@ public class RolColSum {
     }
 
     public static Sums[] asyncSum(int[][] matrix) throws ExecutionException, InterruptedException {
-        int n = matrix.length - 1;
+        int n = matrix.length;
         Map<Integer, CompletableFuture<Sums>> futures = new HashMap<>();
-        for (int k = 0; k <= n - k; k++) {
+        Sums[] sums = new Sums[n];
+        for (int k = 0; k < n; k++) {
             futures.put(k, getTask(matrix, k));
-            futures.put(n - k, getTask(matrix, n - k));
         }
-        Sums[] sums = new Sums[n + 1];
         for (Integer key : futures.keySet()) {
             sums[key] = futures.get(key).get();
         }
