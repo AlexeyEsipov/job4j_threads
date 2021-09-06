@@ -31,8 +31,7 @@ public class TopicService implements Service {
             // А если получилось внести (результат = null) то значит, что ее там нет, то есть
             // нет подписчиков по этой теме, а то, что мы сейчас внесли, надо удалить.
             // Итак: пытаемся поместить пустую тему и оцениваем результат
-            var innerMap = queue.putIfAbsent(theme, new ConcurrentHashMap<>());
-            if (innerMap != null) {
+            if (queue.putIfAbsent(theme, new ConcurrentHashMap<>()) != null) {
                 // если не получилось, то достаем ту, что там уже есть по теме
                 // и каждому подписчику (k- ключ по ID) в его очередь (v - очередь сообщений)
                 // добавляем сообщение
@@ -49,7 +48,8 @@ public class TopicService implements Service {
             // Пытаемся достать из хранилища карту по теме и оцениваем результат
             // Попытку организуем, как и в предыдущем методе
             // - пытаемся поместить пустую карту с ключом по теме.
-            var nestedMap = queue.putIfAbsent(theme, new ConcurrentHashMap<>());
+            ConcurrentHashMap<Integer, ConcurrentLinkedQueue<String>> nestedMap =
+                    queue.putIfAbsent(theme, new ConcurrentHashMap<>());
             // оцениваем результат - = null значит получилось, != - не получилось
             if (nestedMap != null) {
                 // Если не получилось поместить новую, то из старой (а она запишется в переменную q)
@@ -57,10 +57,9 @@ public class TopicService implements Service {
                 // Проверим, есть ли у нас такой подписчик. Проверку делаем тем же методом -
                 // помещаем во вложенную карту пустую новую
                 // очередь по ключу ID и оцениваем результат
-                var mapId = nestedMap.putIfAbsent(id, new ConcurrentLinkedQueue<>());
                 // оцениваем результат - = null значит получилось (подписчика с таким ID у нас нет),
                 // != - не получилось, значит подписчик с таким ID есть.
-                if (mapId != null) {
+                if (nestedMap.putIfAbsent(id, new ConcurrentLinkedQueue<>()) != null) {
                 // такой подписчик есть, извлекаем из его очереди сообщение
                     String text = nestedMap.get(id).poll();
 

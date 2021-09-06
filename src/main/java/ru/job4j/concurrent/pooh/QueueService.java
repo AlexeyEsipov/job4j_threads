@@ -17,7 +17,7 @@ public class QueueService implements Service {
         // если запрос GET
         if (method.equals("GET")) {
             // пробуем извлечь очередь с темой запроса
-            var innerQueue = queue.get(theme);
+            ConcurrentLinkedQueue<String> innerQueue = queue.get(theme);
             // если очередь существует и
             if (innerQueue != null) {
                 // если очередь не пустая, извлекаем и возвращаем ответ, иначе сообщаем что пустая
