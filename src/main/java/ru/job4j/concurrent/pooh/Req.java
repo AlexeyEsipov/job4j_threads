@@ -1,7 +1,5 @@
 package ru.job4j.concurrent.pooh;
 
-import java.util.Objects;
-
 public class Req {
     private String method;
     private String mode;
@@ -18,28 +16,17 @@ public class Req {
     }
 
     public static Req of(String content) {
-        // POST /queue/weather / HTTP/1.1
-        // метод/режим/тема/
-
-        // объявляем переменные
         int id = -1;
         String message = "";
-        // разбиваем текст на строки
         String[] lines = content.split(System.lineSeparator());
-//        System.out.println("длина = " + lines.length);
-        // разбиваем первую строку на слова
         String[] words = lines[0].split("/");
-        // присваиваем переменным значения
         String method = words[0].trim();
         String mode = words[1];
         String theme = words[2].split(" ")[0];
-
-        // последняя строка с параметрами, если она должна быть
-        if (Objects.equals(method, "POST")) {
+        if (("POST").equals(method)) {
             message = lines[lines.length - 1];
         }
-        // ID пользователя, если он должен быть
-        if (Objects.equals(method, "GET") && Objects.equals(mode, "topic")) {
+        if (("GET").equals(method) && ("topic").equals(mode)) {
             id = Integer.parseInt(words[3].split(" ")[0]);
         }
         return new Req(method, mode, theme, message, id);

@@ -41,16 +41,6 @@ public class PoohServer {
             e.printStackTrace();
         }
     }
- // пример POST запроса из командной строки
-// C:\Tools\curl-7.74.0_1-win64-mingw\bin> ->
-//  -> curl -X POST -d "temperature=178" http://localhost:9000/queue/weather
-//    или curl -X POST -d "temperature=178" http://localhost:9000/topic/weather
-// пример GET запроса из командной строки
-// C:\Tools\curl-7.74.0_1-win64-mingw\bin> curl -i http://localhost:9000/queue/weather
-//    или curl -i http://localhost:9000/topic/weather/1
-// где: queue или topic - режим работы очередь или топик
-//    weather - имя темы, если ее нет, то создать новую
-//    1 - ID пользователя
 
     public static void main(String[] args) {
         new PoohServer().start();
