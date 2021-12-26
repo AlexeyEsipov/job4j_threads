@@ -41,7 +41,7 @@ public class ThreadPoolTest {
 //            Thread.currentThread().interrupt();
 //        } */
         pool.shutdown();
-        System.out.println(result);
+            System.out.println(result);
         System.out.println(l1);
     }
 
