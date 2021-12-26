@@ -31,7 +31,7 @@ public class EmailNotification {
     }
 
     public void send(String subject, String body, String email) {
-        // метод должен быть пока пустым, вывод на консоль только для отладки
+        /* метод должен быть пока пустым, вывод на консоль только для отладки*/
         System.out.println(subject);
         System.out.println(body);
         System.out.println(email);

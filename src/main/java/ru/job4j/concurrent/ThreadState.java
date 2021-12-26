@@ -3,21 +3,21 @@ package ru.job4j.concurrent;
 public class ThreadState {
     public static void main(String[] args) {
 
-        // создаем первую нить
+        /* создаем первую нить*/
         Thread first = new Thread(
                 () -> System.out.println(Thread.currentThread().getName())
         );
 
-        //создаем вторую нить
+        /*создаем вторую нить*/
         Thread second = new Thread(
                 () -> System.out.println(Thread.currentThread().getName())
         );
 
-        //запускаем первую и вторую нить
+        /*запускаем первую и вторую нить*/
         first.start();
         second.start();
 
-        //ждем, пока нити первая и вторая не завершатся
+        /*ждем, пока нити первая и вторая не завершатся*/
 
         while (first.getState() != Thread.State.TERMINATED
                 || second.getState() != Thread.State.TERMINATED) {

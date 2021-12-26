@@ -45,8 +45,8 @@ public class ThreadPoolCoderLessons {
                     task = queue.poll();
                 }
 
-                // If we don't catch RuntimeException,
-                // the pool could leak threads
+                /* If we don't catch RuntimeException,*/
+                /* the pool could leak threads*/
                 try {
                     task.run();
                 } catch (RuntimeException e) {

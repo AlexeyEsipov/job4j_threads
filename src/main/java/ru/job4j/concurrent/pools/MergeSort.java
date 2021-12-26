@@ -1,7 +1,7 @@
 package ru.job4j.concurrent.pools;
 
 public class MergeSort {
-//    public static int[] sort(int[] array) {
+/*   public static int[] sort(int[] array) {
 //        return sort(array, 0, array.length - 1);
 //    }
 
@@ -23,7 +23,7 @@ public class MergeSort {
 //        );
 //    }
 
-    // Метод объединения двух отсортированных массивов
+    // Метод объединения двух отсортированных массивов*/
     public static int[] merge(int[] left, int[] right) {
         int li = 0;
         int ri = 0;

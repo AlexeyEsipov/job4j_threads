@@ -12,7 +12,7 @@ public class Pooh {
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
             boolean done = true;
-//            while (!server.isClosed()) {
+/*            while (!server.isClosed()) {*/
                 while (done) {
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();

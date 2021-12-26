@@ -6,7 +6,7 @@ import java.util.concurrent.*;
 
 public class MultiThreadClient {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-//        ExecutorService threadPool = Executors.newFixedThreadPool(5);
+        /*   ExecutorService threadPool = Executors.newFixedThreadPool(5); */
         ThreadPoolHabr threadPool = new ThreadPoolHabr(5);
         Counter counter = new Counter();
 
