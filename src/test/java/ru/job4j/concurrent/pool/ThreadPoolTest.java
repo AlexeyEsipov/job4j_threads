@@ -36,10 +36,10 @@ public class ThreadPoolTest {
             l1.add(i);
         }
 /**        try {
-//            Thread.sleep(10);
-//        } catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//        } */
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } */
         pool.shutdown();
             System.out.println(result);
         System.out.println(l1);
