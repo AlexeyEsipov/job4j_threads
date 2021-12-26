@@ -35,11 +35,11 @@ public class ThreadPoolTest {
             pool.work(taskTest);
             l1.add(i);
         }
-//        try {
+/**        try {
 //            Thread.sleep(10);
 //        } catch (InterruptedException e) {
 //            Thread.currentThread().interrupt();
-//        }
+//        } */
         pool.shutdown();
         System.out.println(result);
         System.out.println(l1);

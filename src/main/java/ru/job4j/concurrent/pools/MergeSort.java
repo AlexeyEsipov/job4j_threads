@@ -1,7 +1,7 @@
 package ru.job4j.concurrent.pools;
 
 public class MergeSort {
-/*   public static int[] sort(int[] array) {
+/**  public static int[] sort(int[] array) {
 //        return sort(array, 0, array.length - 1);
 //    }
 
